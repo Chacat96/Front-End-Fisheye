@@ -28,14 +28,17 @@
       <div class="photograph-media"></div>
       <div class="encart-media"></div>
     </main>
-    
+
     <!-- Lightbox -->
     <div id="lightbox" class="lightbox">
-      <img src="assets/icons/close.svg" onclick="closeModal()" />
+      <span class="lightbox-prev" aria-label="Précédent">&lt;</span>
+      <span class="close" onclick="closelightbox()">×</span>
+      <p class="lightbox-title"></p>
       <div class="lightbox-content">
         <img id="lightboxImage" style="display: none;" />
         <video id="lightboxVideo" style="display: none;" controls></video>
       </div>
+      <span class="lightbox-next" aria-label="Suivant">&gt;</span>
   </div>
 
     <!-- Modal de contact -->
@@ -61,9 +64,10 @@
 				</form>
 			</div>
 		</div>
-    <script src="scripts/pages/index.js"></script>
     <script src="scripts/templates/photographer.js"></script>
+    <script src="scripts/pages/index.js"></script>
     <script type="module" src="scripts/pages/photographer.js"></script>
+    <script src="scripts/utils/lightbox.js"></script>
     <script src="scripts/utils/contactForm.js"></script>
   </body>
 </html>

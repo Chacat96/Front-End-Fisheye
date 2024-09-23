@@ -86,6 +86,10 @@ function PhotographerProfile(data) {
 function mediaTemplate(dataMedia, photographerName) {
     const { image, video, title, likes, date, price } = dataMedia;
 
+let mediaArray = []; 
+let currentIndex = 0; 
+
+
     // Extraire le prénom du nom complet du photographe
     const photographerFirstName = photographerName.split(' ')[0];
 
@@ -93,11 +97,15 @@ function mediaTemplate(dataMedia, photographerName) {
     let mediaPath = "";
     if (image) {
         mediaPath = `assets/images/${photographerFirstName}/${image}`;
+        mediaType = 'image';
     } else if (video) {
         mediaPath = `assets/images/${photographerFirstName}/${video}`;
+        mediaType = 'video';
     }
 
     console.log('mediaPath', mediaPath);
+
+    mediaArray.push({ mediaPath, mediaType, title });
 
     const divMedia = document.querySelector('.photograph-media');
 
@@ -108,6 +116,8 @@ function mediaTemplate(dataMedia, photographerName) {
         media.setAttribute("src", mediaPath);
         media.setAttribute("alt", title);
         media.classList.add("media");
+
+        media.addEventListener('click', () => openLightbox(mediaPath, 'image', title));
     } else if (video) {
         media = document.createElement("video");
         media.removeAttribute("controls");
@@ -116,6 +126,11 @@ function mediaTemplate(dataMedia, photographerName) {
         source.setAttribute("type", "video/mp4");
         media.classList.add("media");
         media.appendChild(source);
+
+        media.addEventListener('click', () => {
+            currentIndex = mediaArray.length - 1; 
+            openLightbox(mediaPath, 'video', title);
+        });
     }
 
     const articleMedia = document.createElement("article");
@@ -134,7 +149,8 @@ function mediaTemplate(dataMedia, photographerName) {
     heartLikes.classList.add("fa-heart");
     divLikes.appendChild(heartLikes);
 
-
+    const prevBtn = document.querySelector(".lightbox-prev");
+    const nextBtn = document.querySelector(".lightbox-next");
 
     divMedia.appendChild(articleMedia); 
 
@@ -142,67 +158,57 @@ function mediaTemplate(dataMedia, photographerName) {
     articleMedia.appendChild(titreMedia);
     articleMedia.appendChild(divLikes);
     
-   
+    prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + mediaArray.length) % mediaArray.length; // Précédent
+        const { mediaPath, mediaType, title } = mediaArray[currentIndex];
+        openLightbox(mediaPath, mediaType, title);
+    });
+    
+    nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % mediaArray.length; // Suivant
+        const { mediaPath, mediaType, title } = mediaArray[currentIndex];
+        openLightbox(mediaPath, mediaType, title);
+    });
 
     console.log('media', media);
     return divMedia;
 }
 
-// Ouvrir la lightbox avec l'image ou la vidéo cliquée
-const lightbox = document.getElementById("lightbox");
-const lightboxImage = document.getElementById("lightboxImage");
-const lightboxVideo = document.getElementById("lightboxVideo");
-const closeBtn = document.querySelector(".close");
-function openLightbox(mediaPath, mediaType) {
-    lightbox.style.display = "flex"; // Afficher la lightbox
-
-    if (mediaType === 'image') {
-        lightboxImage.style.display = "block";
-        lightboxVideo.style.display = "none";
-        lightboxImage.src = mediaPath; // Afficher l'image dans la lightbox
-    } else if (mediaType === 'video') {
-        lightboxImage.style.display = "none";
-        lightboxVideo.style.display = "block";
-        lightboxVideo.src = mediaPath; // Afficher la vidéo dans la lightbox
-        lightboxVideo.play(); // Jouer la vidéo automatiquement
-    }
-}
-
 //Fonction pour creer le template de l'encart des medias
-function encartMedia (data) {
-    const {price, likes} = data;
+function encartMedia(data, photographerPrice) {
 
-    console.log('data', data);
+    // Calculer la somme des likes avec reduce pour accumuler les likes de chaque éléments dans le tableau data
+    const totalLikesSum = data.reduce((accumulator, media) => {
+        return accumulator + media.likes;
+    }, 0);
 
-const encartMediaDiv = document.querySelector(".encart-media");
+    const encartMediaDiv = document.querySelector(".encart-media");
 
-const priceMedia = document.createElement("p");
-priceMedia.classList.add("price-media");
-priceMedia.textContent = price + "€";
-encartMediaDiv.appendChild(priceMedia);
+    const likeEncart = document.createElement("div");
+    likeEncart.classList.add("like-encart");
+    encartMediaDiv.appendChild(likeEncart);
 
-const likeEncart = document.createElement("div");
-likeEncart.classList.add("like-encart");
-encartMediaDiv.appendChild(likeEncart);
+    const totalLikes = document.createElement("p");
+    totalLikes.classList.add("total-likes");
+    totalLikes.textContent = totalLikesSum;
+    likeEncart.appendChild(totalLikes);
 
-const totalLikes = document.createElement("p");
-totalLikes.classList.add("total-likes");
-totalLikes.textContent = likes;
-likeEncart.appendChild(totalLikes);
+    const heartLikes = document.createElement("i");
+    heartLikes.classList.add("fa-solid");
+    heartLikes.classList.add("fa-heart");
+    likeEncart.appendChild(heartLikes);
 
-console.log(encartMediaDiv);
-
-
-return encartMediaDiv;
+    const priceMedia = document.createElement("p");
+    priceMedia.classList.add("price-media");
+    priceMedia.textContent = photographerPrice + "€ / jour"; 
+    encartMediaDiv.appendChild(priceMedia);
+    
+    return encartMediaDiv;
 }
+
 
 //Formulaire de contact 
 function contactForm(data) {
-    const contactModal = document.getElementById("modal");
-
     const nameContact = document.querySelector('.name-contact');
     nameContact.textContent = data.name;
-
-    contactModal.appendChild(nameContact);
-    
 }

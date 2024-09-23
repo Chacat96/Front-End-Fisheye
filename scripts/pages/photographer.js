@@ -24,6 +24,7 @@ async function init() {
         if (profil) {
             // Extraire le nom du photographe
             const photographerName = profil.name;
+            const photographerPrice = profil.price;
             console.log('Nom du photographe:', photographerName);
             
             // Afficher les informations du photographe
@@ -40,6 +41,8 @@ async function init() {
             photographerMedia.forEach(mediaItem => {
                 mediaTemplate(mediaItem, photographerName);
             });
+
+            // encartMedia(photographerMedia, photographerPrice);
 
       
         } else {
@@ -108,8 +111,6 @@ async function initMedia() {
         displayMedia(photographerMedia);
         encartMedia(photographerMedia);
 
-          //Appeleer la fonction de contact pour le nom
-          contactForm(profil);
     } catch (error) {
         console.error("Erreur lors de la récupération des médias:", error);
     }
@@ -117,12 +118,6 @@ async function initMedia() {
 
 // Appeler la fonction pour initialiser les médias
 initMedia();
-
-// //Fonction pour l'encaart du prix et des likes
-
-// asyn function displayEncart(likes, price) {
-
-// }
 
 //Récupéré les valeurs du formulaire de contact
 const form = document.querySelector("form");
@@ -137,7 +132,10 @@ form.addEventListener("submit", (event) => {
   const nom = document.querySelector("#nom").value;
   const email = document.querySelector("#email").value;
   const message = document.querySelector("#message").value;
-  console.log(prenom, nom, email, message);
+  console.log("Votre prénom :",prenom);
+  console.log("Votre nom :",nom);
+  console.log("Votre email :",email);
+  console.log("Votre message :",message);
 })
 
 
