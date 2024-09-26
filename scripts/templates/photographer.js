@@ -177,7 +177,6 @@ let currentIndex = 0;
 //Fonction pour creer le template de l'encart des medias
 function encartMedia(data, photographerPrice) {
 
-    // Calculer la somme des likes avec reduce pour accumuler les likes de chaque éléments dans le tableau data
     const totalLikesSum = data.reduce((accumulator, media) => {
         return accumulator + media.likes;
     }, 0);
@@ -200,10 +199,10 @@ function encartMedia(data, photographerPrice) {
 
     const priceMedia = document.createElement("p");
     priceMedia.classList.add("price-media");
-    priceMedia.textContent = photographerPrice + "€ / jour"; 
+    priceMedia.textContent = photographerPrice + `€ / jour`;
     encartMediaDiv.appendChild(priceMedia);
     
-    return encartMediaDiv;
+    return encartMedia;
 }
 
 

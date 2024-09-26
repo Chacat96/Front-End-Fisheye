@@ -42,7 +42,7 @@ async function init() {
                 mediaTemplate(mediaItem, photographerName);
             });
 
-            // encartMedia(photographerMedia, photographerPrice);
+            encartMedia(photographerMedia, photographerPrice);
 
       
         } else {
@@ -109,7 +109,7 @@ async function initMedia() {
         const photographerMedia = media.filter(mediaItem => mediaItem.photographerId == photographerId);
         console.table(photographerMedia);
         displayMedia(photographerMedia);
-        encartMedia(photographerMedia);
+        // encartMedia(photographerMedia);
 
     } catch (error) {
         console.error("Erreur lors de la récupération des médias:", error);
