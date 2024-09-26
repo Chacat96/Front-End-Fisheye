@@ -107,6 +107,10 @@
     margin-left: 8px;
 }
 
+.fa-heart {
+    cursor: pointer;
+}
+
 /************* Encart photographe *************/
 
 .encart-media {

@@ -1,3 +1,4 @@
+let totalLikesSum = 0;
 
 //Fonction principal qui appel les data des photographes
 function photographerTemplate(data) {
@@ -103,7 +104,7 @@ let currentIndex = 0;
         mediaType = 'video';
     }
 
-    console.log('mediaPath', mediaPath);
+    // console.log('mediaPath', mediaPath);
 
     mediaArray.push({ mediaPath, mediaType, title });
 
@@ -144,9 +145,27 @@ let currentIndex = 0;
     divLikes.classList.add("likes");
     divLikes.textContent = likes;
 
+    function incrementLikes() {
+        const hasLiked = divLikes.getAttribute('data-has-liked') === 'true';
+        if (!hasLiked) {  // Vérifie si un like a déjà été donné pour ce média
+            let like = parseInt(divLikes.textContent);
+            like++;
+            divLikes.textContent = like;
+
+            // Incrémente le total global des likes et met à jour l'encart
+            totalLikesSum++;
+            document.querySelector('.total-likes').textContent = totalLikesSum;
+
+            divLikes.setAttribute('data-has-liked', 'true');  // Marque que l'utilisateur a déjà liké ce média
+            divLikes.appendChild(heartLikes);
+        }
+    }
+
     const heartLikes = document.createElement("i");
     heartLikes.classList.add("fa-solid");
     heartLikes.classList.add("fa-heart");
+    heartLikes.addEventListener("click", incrementLikes);
+
     divLikes.appendChild(heartLikes);
 
     const prevBtn = document.querySelector(".lightbox-prev");
@@ -170,16 +189,18 @@ let currentIndex = 0;
         openLightbox(mediaPath, mediaType, title);
     });
 
-    console.log('media', media);
+    // console.log('media', media);
     return divMedia;
 }
 
 //Fonction pour creer le template de l'encart des medias
 function encartMedia(data, photographerPrice) {
-
-    const totalLikesSum = data.reduce((accumulator, media) => {
-        return accumulator + media.likes;
-    }, 0);
+    
+    if (totalLikesSum === 0) { 
+        totalLikesSum = data.reduce((accumulator, media) => {
+            return accumulator + media.likes;
+        }, 0);
+    }
 
     const encartMediaDiv = document.querySelector(".encart-media");
 

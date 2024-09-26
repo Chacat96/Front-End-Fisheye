@@ -25,7 +25,7 @@ async function init() {
             // Extraire le nom du photographe
             const photographerName = profil.name;
             const photographerPrice = profil.price;
-            console.log('Nom du photographe:', photographerName);
+            // console.log('Nom du photographe:', photographerName);
             
             // Afficher les informations du photographe
             const photographerSection = document.querySelector('.photograph-header');
@@ -35,7 +35,7 @@ async function init() {
 
             // Obtenir les médias pour ce photographe
             const photographerMedia = getMediaByPhotographerId(data, photographerId);
-            console.table(photographerMedia);
+            // console.table(photographerMedia);
             
             // Passer les médias et le nom du photographe à la fonction mediaTemplate
             photographerMedia.forEach(mediaItem => {
@@ -70,7 +70,7 @@ async function initContact() {
         if (profil) {
             // Extraire le nom du photographe
             const photographerName = profil.name;
-            console.log('Nom du photographe:', photographerName);
+            // console.log('Nom du photographe:', photographerName);
             
             
             //Appeleer la fonction de contact pour le nom
@@ -78,7 +78,7 @@ async function initContact() {
 
             // Obtenir les médias pour ce photographe
             const photographerMedia = getMediaByPhotographerId(data, photographerId);
-            console.table(photographerMedia);
+            // console.table(photographerMedia);
             
         }
     } catch (error) {
@@ -107,7 +107,7 @@ async function initMedia() {
         const photographerId = new URLSearchParams(urlParams).get("id");
 
         const photographerMedia = media.filter(mediaItem => mediaItem.photographerId == photographerId);
-        console.table(photographerMedia);
+        // console.table(photographerMedia);
         displayMedia(photographerMedia);
         // encartMedia(photographerMedia);
 
@@ -132,10 +132,52 @@ form.addEventListener("submit", (event) => {
   const nom = document.querySelector("#nom").value;
   const email = document.querySelector("#email").value;
   const message = document.querySelector("#message").value;
-  console.log("Votre prénom :",prenom);
-  console.log("Votre nom :",nom);
-  console.log("Votre email :",email);
-  console.log("Votre message :",message);
+//   console.log("Votre prénom :",prenom);
+//   console.log("Votre nom :",nom);
+//   console.log("Votre email :",email);
+//   console.log("Votre message :",message);
 })
+
+//Filtrer les média
+// function handleFilterChange(event) {
+//     const filterValue = event.target.value;
+    
+//     // Récupérer les médias actuels
+//     let sortedMedia;
+//     if (filterValue === 'popularite') {
+//         sortedMedia = sortByPopularity(photographerMedia);
+//     } else if (filterValue === 'date') {
+//         sortedMedia = sortByDate(photographerMedia);
+//     } else if (filterValue === 'titre') {
+//         sortedMedia = sortByTitle(photographerMedia);
+//     }
+
+//     // Réafficher les médias triés
+//     displaySortedMedia(sortedMedia);
+// }
+
+// function sortByPopularity(mediaArray) {
+//     return mediaArray.sort((a, b) => b.likes - a.likes);
+// }
+// function sortByDate(mediaArray) {
+//     return mediaArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+// }
+// function sortByTitle(mediaArray) {
+//     return mediaArray.sort((a, b) => a.title.localeCompare(b.title));
+// }
+// function displayMedia(sortedMedia) {
+//     // Vider la section des médias
+//     const mediaSection = document.querySelector('.photograph-media');
+//     mediaSection.innerHTML = '';  // Supprime tous les médias actuellement affichés
+
+//     // Réafficher les médias triés
+//     sortedMedia.forEach(mediaItem => {
+//         mediaTemplate(mediaItem, photographerName);
+//     });
+//}
+
+
+
+
 
 

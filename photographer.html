@@ -19,7 +19,7 @@
       </div>
       <div class="filtre">
         <label for="filtre">Trier par</label>
-        <select name="filtre" id="filtre-select" class="filtre-select">
+        <select name="filtre" id="filtre-select" class="filtre-select" onchange="handleFilterChange(event)">
           <option value="popularite">Popularité</option>
           <option value="date">Date</option>
           <option value="titre">Titre</option>
