@@ -1,4 +1,5 @@
 import mediaFactory from "../utils/Factory.js";
+let photographerMedia = [];
 
 // Fonction pour obtenir un profil par son ID
 function getProfilById(data, photographerId) {
@@ -132,50 +133,22 @@ form.addEventListener("submit", (event) => {
   const nom = document.querySelector("#nom").value;
   const email = document.querySelector("#email").value;
   const message = document.querySelector("#message").value;
-//   console.log("Votre prénom :",prenom);
-//   console.log("Votre nom :",nom);
-//   console.log("Votre email :",email);
-//   console.log("Votre message :",message);
+  console.log("Votre prénom :",prenom);
+  console.log("Votre nom :",nom);
+  console.log("Votre email :",email);
+  console.log("Votre message :",message);
 })
 
-//Filtrer les média
-// function handleFilterChange(event) {
-//     const filterValue = event.target.value;
-    
-//     // Récupérer les médias actuels
-//     let sortedMedia;
-//     if (filterValue === 'popularite') {
-//         sortedMedia = sortByPopularity(photographerMedia);
-//     } else if (filterValue === 'date') {
-//         sortedMedia = sortByDate(photographerMedia);
-//     } else if (filterValue === 'titre') {
-//         sortedMedia = sortByTitle(photographerMedia);
-//     }
 
-//     // Réafficher les médias triés
-//     displaySortedMedia(sortedMedia);
-// }
 
-// function sortByPopularity(mediaArray) {
-//     return mediaArray.sort((a, b) => b.likes - a.likes);
-// }
-// function sortByDate(mediaArray) {
-//     return mediaArray.sort((a, b) => new Date(b.date) - new Date(a.date));
-// }
-// function sortByTitle(mediaArray) {
-//     return mediaArray.sort((a, b) => a.title.localeCompare(b.title));
-// }
-// function displayMedia(sortedMedia) {
-//     // Vider la section des médias
-//     const mediaSection = document.querySelector('.photograph-media');
-//     mediaSection.innerHTML = '';  // Supprime tous les médias actuellement affichés
 
-//     // Réafficher les médias triés
-//     sortedMedia.forEach(mediaItem => {
-//         mediaTemplate(mediaItem, photographerName);
-//     });
-//}
 
+
+// document.addEventListener("DOMContentLoaded", function() {
+//     const selectElement = document.getElementById("filtre-select");
+//     selectElement.addEventListener("change", handleFilterChange);
+//     console.log("Écouteur d'événement ajouté au select");
+// });
 
 
 

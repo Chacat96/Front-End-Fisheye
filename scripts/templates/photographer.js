@@ -1,5 +1,6 @@
 let totalLikesSum = 0;
 
+
 //Fonction principal qui appel les data des photographes
 function photographerTemplate(data) {
     const { name, portrait, tagline, price, city, country, id } = data;
@@ -231,4 +232,35 @@ function encartMedia(data, photographerPrice) {
 function contactForm(data) {
     const nameContact = document.querySelector('.name-contact');
     nameContact.textContent = data.name;
+}
+
+//Filtre de trie
+
+function filterMedia(data) {
+    document.addEventListener("DOMContentLoaded", function() {
+        const selectElement = document.getElementById("filtre-select");
+        selectElement.addEventListener("change", handleFilterChange);
+        console.log("Écouteur d'événement ajouté au select");
+    });
+    return data;
+}
+function handleFilterChange(event) {
+    console.log('Changement de filtre détecté:', event.target.value);
+    const filterValue = event.target.value;
+    
+    // Récupérer les médias actuels
+    let sortedMedia;
+    if (filterValue === 'popularite') {
+        likes.sort(function(a, b) {
+            return b.likes - a.likes;
+        })
+        console.log(likes);
+    } else if (filterValue === 'date') {
+        sortedMedia = sortByDate(photographerMedia);
+    } else if (filterValue === 'titre') {
+        sortedMedia = sortByTitle(photographerMedia);
+    }
+
+    // Réafficher les médias triés
+    displayMedia(sortedMedia);
 }
