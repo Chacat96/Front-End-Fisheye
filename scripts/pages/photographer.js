@@ -39,9 +39,12 @@ async function init() {
             // console.table(photographerMedia);
             
             // Passer les médias et le nom du photographe à la fonction mediaTemplate
-            photographerMedia.forEach(mediaItem => {
-                mediaTemplate(mediaItem, photographerName);
-            });
+            const photographerData = {
+                ...profil,
+                media: photographerMedia
+            };
+
+            initializeGallery(photographerData);
 
             encartMedia(photographerMedia, photographerPrice);
 
@@ -139,10 +142,46 @@ form.addEventListener("submit", (event) => {
   console.log("Votre message :",message);
 })
 
+function handleFilterChange(event) {
+    console.log('Changement de filtre détecté:', event.target.value);
+    const filterValue = event.target.value;
+    
+    // Récupérer les médias actuels
+    let sortedMedia;
+    if (filterValue === 'popularite') {
+        likes.sort(function(a, b) {
+            return b.likes - a.likes;
+        })
+        console.log(likes);
+    } else if (filterValue === 'date') {
+        sortedMedia = sortByDate(photographerMedia);
+    } else if (filterValue === 'titre') {
+        sortedMedia = sortByTitle(photographerMedia);
+    }
 
+    // Réafficher les médias triés
+    displayMedia(sortedMedia);
+}
 
+function sortByPopularity(mediaArray) {
+    return mediaArray.sort((a, b) => b.likes - a.likes);
+}
+function sortByDate(mediaArray) {
+    return mediaArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+}
+function sortByTitle(mediaArray) {
+    return mediaArray.sort((a, b) => a.title.localeCompare(b.title));
+}
+function displayMediaFilter(sortedMedia) {
+   
+    const mediaSection = document.querySelector('.photograph-media');
+    mediaSection.innerHTML = '';  
 
-
+   
+    sortedMedia.forEach(mediaItem => {
+        mediaTemplate(mediaItem, photographerName);
+    });
+}
 
 // document.addEventListener("DOMContentLoaded", function() {
 //     const selectElement = document.getElementById("filtre-select");
