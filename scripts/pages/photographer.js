@@ -43,7 +43,7 @@ async function init() {
                 ...profil,
                 media: photographerMedia
             };
-
+            console.log('Calling initializeGallery with:', photographerData);
             initializeGallery(photographerData);
 
             encartMedia(photographerMedia, photographerPrice);
