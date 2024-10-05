@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
@@ -11,14 +11,14 @@
   </head>
   <body>
     <header>
-      <a href="index.html"> <img src="assets/images/logo.png" class="logo" /></a>
+      <a href="index.html"> <img src="assets/images/logo.png" class="logo" alt="fisheye logo" /></a>
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+        <button class="contact_button" aria-label="Contactez-moi" onclick="displayModal()">Contactez-moi</button>
       </div>
       <div class="filtre">
-        <label for="filtre">Trier par</label>
+        <label for="filtre-select">Trier par</label>
         <select name="filtre" id="filtre-select" class="filtre-select">
           <option value="popularite">Popularité</option>
           <option value="date">Date</option>
@@ -30,44 +30,47 @@
     </main>
 
     <!-- Lightbox -->
-    <div id="lightbox" class="lightbox">
-      <span class="lightbox-prev" aria-label="Précédent">&lt;</span>
-      <span class="close">×</span>
-      <p class="lightbox-title"></p>
+    <div id="lightbox" class="lightbox" role="dialog" aria-labelledby="lightbox" aria-modal="true">
+      <span class="lightbox-prev" aria-label="Image précédent">&lt;</span>
+      <span class="close" aria-label="Fermer la lightbox">×</span>
+      
       <div class="lightbox-content">
-        <img id="lightboxImage" style="display: none;" />
-        <video id="lightboxVideo" style="display: none;" controls></video>
+          <img id="lightboxImage" style="display: none;" alt="image du media sélectionné" />
+          <video id="lightboxVideo" style="display: none;" aria-label="Vidéo du media sélectionné" controls></video>
+          <p class="lightbox-title"></p> <!-- Place the title inside lightbox-content -->
       </div>
-      <span class="lightbox-next" aria-label="Suivant">&gt;</span>
+  
+      <span class="lightbox-next" aria-label="Image suivant">&gt;</span>
   </div>
+  
 
     <!-- Modal de contact -->
-    <div id="contact_modal">
+    <div id="contact_modal" role="dialog" aria-labelledby="contact-heading" aria-modal="true">
 			<div class="modal">
 				<header class="contact-header">
           <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+          <img src="assets/icons/close.svg" alt="fermer" onclick="closeModal()" />
         </header> 
         <p class="name-contact"></p>
 				<form>
 					<div>
 						<label for="prenom">Prénom</label>
-						<input id="prenom" name="prenom"/>
+						<input id="prenom" name="prenom" type="text" aria-label="Prénom"/>
 						<label for="nom">Nom</label>
-						<input id="nom" name="nom" />
+						<input id="nom" name="nom" type="text" aria-label="Nom" />
 						<label for="email">Email</label>
-						<input id="email" name="email" />
+						<input id="email" name="email" type="email" aria-label="Email"/>
             <label for="message">Votre message</label>  
-            <textarea id="message" name="message"></textarea>
+            <textarea id="message" name="message" aria-label="Votre message"></textarea>
 					</div>
-          <button class="contact_button" value="envoyer">Envoyer</button>
+          <button class="contact_button" value="envoyer" >Envoyer</button>
 				</form>
 			</div>
 		</div>
     <script  src="scripts/templates/photographer.js"></script>
     <script src="scripts/pages/index.js"></script>
     <script type="module" src="scripts/pages/photographer.js"></script>
-    <script  src="scripts/utils/lightbox.js"></script>
+    <!-- <script  src="scripts/utils/lightbox.js"></script> -->
     <script src="scripts/utils/contactForm.js"></script>
   </body>
 </html>

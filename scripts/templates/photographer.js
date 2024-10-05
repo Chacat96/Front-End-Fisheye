@@ -19,7 +19,7 @@ function photographerTemplate(data) {
         a.setAttribute("href", `photographer.html?id=${id}`);
 
         const img = document.createElement( 'img' );
-        img.setAttribute("src", picture)
+        img.setAttribute("src", picture, "alt", name);
 
         const h2 = document.createElement( 'h2' );
         h2.textContent = name;
@@ -118,28 +118,6 @@ function updateLightbox(mediaPath, mediaType, title, currentIndex) {
     }
 
     lightboxTitle.textContent = title;
-
-    const prevBtn = document.querySelector(".lightbox-prev");
-    const nextBtn = document.querySelector(".lightbox-next");
-    const closeBtn = document.querySelector(".close");
-
-    prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + mediaArray.length) % mediaArray.length;
-        const { mediaPath, mediaType, title } = mediaArray[currentIndex];
-        updateLightbox(mediaPath, mediaType, title, currentIndex);
-        console.log("currentindexprev", currentIndex);
-    });
-    
-    nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % mediaArray.length;
-        
-        const { mediaPath, mediaType, title } = mediaArray[currentIndex];
-        updateLightbox(mediaPath, mediaType, title, currentIndex);
-        console.log("currentindexnext", currentIndex);
-    });
-
-    closeBtn.addEventListener('click', closeLightbox);
-
 }
 
 function initializeLightboxNavigation() {
