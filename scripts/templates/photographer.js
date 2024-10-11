@@ -20,6 +20,7 @@ function photographerTemplate(data) {
 
         const img = document.createElement( 'img' );
         img.setAttribute("src", picture, "alt", name);
+        img.setAttribute("aria-label", "Photo de profil de " + name);
 
         const h2 = document.createElement( 'h2' );
         h2.textContent = name;
@@ -93,11 +94,35 @@ function openLightbox(mediaPath, mediaType, title, index) {
     document.getElementById('lightbox').style.display = 'flex';
     console.log("currentindex", currentIndex);
 
-   
+    const lightboxPrev = document.querySelector('.lightbox-prev');
+    const lightboxNext = document.querySelector('.lightbox-next');
+
+    lightboxPrev.addEventListener('enter', () => navigateLightbox(-1));
+    lightboxNext.addEventListener('enter', () => navigateLightbox(1));
+
+    document.addEventListener('keydown', handleKeydownInLightbox);
 }
 
 function closeLightbox() {
     document.getElementById('lightbox').style.display = 'none';
+    document.removeEventListener('keydown', handleKeydownInLightbox);
+}
+
+function navigateLightbox(direction) {
+    // -1 pour précédent, 1 pour suivant
+    currentIndex = (currentIndex + direction + mediaArray.length) % mediaArray.length;
+    const { mediaPath, mediaType, title } = mediaArray[currentIndex];
+    updateLightbox(mediaPath, mediaType, title, currentIndex);
+}
+
+function handleKeydownInLightbox(event) {
+    if (event.key === 'ArrowLeft') {
+        navigateLightbox(-1);
+    } else if (event.key === 'ArrowRight') {
+        navigateLightbox(1);
+    } else if (event.key === 'Escape') {
+        closeLightbox();
+    }
 }
 
 function updateLightbox(mediaPath, mediaType, title, currentIndex) {
@@ -114,6 +139,7 @@ function updateLightbox(mediaPath, mediaType, title, currentIndex) {
         lightboxImage.style.display = 'block';
     } else if (mediaType === 'video') {
         lightboxVideo.src = mediaPath;
+        lightboxVideo.alt = title;
         lightboxVideo.style.display = 'block';
     }
 
@@ -197,22 +223,33 @@ function mediaTemplate(dataMedia, photographerName, index) {
         media = document.createElement("img");
         media.setAttribute("src", mediaPath);
         media.setAttribute("alt", title);
+        media.setAttribute("aria-label", "Photo prise par le photographe " + title);
     } else if (video) {
         media = document.createElement("video");
         media.removeAttribute("controls");
         const source = document.createElement("source");
         source.setAttribute("src", mediaPath);
+        source.setAttribute("alt", title);
+        source.setAttribute("aria-label", "Video prise par le photographe " + title);
         source.setAttribute("type", "video/mp4");
         media.appendChild(source);
     }
 
     media.classList.add("media");
+    media.setAttribute("tabindex", "4");
     media.dataset.index = index;
     
     media.addEventListener('click', (event) => {
         console.log(`Clicked on media at index ${index}`);
         console.log('Calling openLightbox:', { mediaPath, mediaType, title, index });
         openLightbox(mediaPath, mediaType, title, index);
+    });
+
+    media.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault(); // Empêche le défilement si c'est la touche espace
+            openLightbox(mediaPath, mediaType, title, index);
+        }
     });
 
     const articleMedia = document.createElement("article");

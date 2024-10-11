@@ -1,5 +1,4 @@
 import mediaFactory from "../utils/Factory.js";
-let photographerMedia = [];
 
 // Fonction pour obtenir un profil par son ID
 function getProfilById(data, photographerId) {
@@ -24,7 +23,7 @@ async function init() {
         const profil = getProfilById(data, photographerId);
         if (profil) {
             // Extraire le nom du photographe
-            const photographerName = profil.name;
+            // const photographerName = profil.name;
             const photographerPrice = profil.price;
             
             // Afficher les informations du photographe
@@ -53,6 +52,7 @@ async function init() {
             initializeGallery(photographerData);
 
             encartMedia(currentPhotographerMedia, photographerPrice);
+            
         } else {
             console.error("Aucun profil trouvé avec cet ID.");
         }
@@ -147,51 +147,51 @@ form.addEventListener("submit", (event) => {
 })
 
 
-document.addEventListener("DOMContentLoaded", function() {
-    const selectElement = document.getElementById("filtre-select");
-    selectElement.addEventListener("change", handleFilterChange);
-    console.log("Écouteur d'événement ajouté au select");
-});
-function handleFilterChange(event) {
-    console.log('Changement de filtre détecté:', event.target.value);
-    const filterValue = event.target.value;
+// document.addEventListener("DOMContentLoaded", function() {
+//     const selectElement = document.getElementById("filtre-select");
+//     selectElement.addEventListener("change", handleFilterChange);
+//     console.log("Écouteur d'événement ajouté au select");
+// });
+// function handleFilterChange(event) {
+//     console.log('Changement de filtre détecté:', event.target.value);
+//     const filterValue = event.target.value;
     
-    // Récupérer les médias actuels
-    let sortedMedia;
-    if (filterValue === 'popularite') {
-        likes.sort(function(a, b) {
-            return b.likes - a.likes;
-        })
-        console.log(likes);
-    } else if (filterValue === 'date') {
-        sortedMedia = sortByDate(photographerMedia);
-    } else if (filterValue === 'titre') {
-        sortedMedia = sortByTitle(photographerMedia);
-    }
+//     // Récupérer les médias actuels
+//     let sortedMedia;
+//     if (filterValue === 'popularite') {
+//         likes.sort(function(a, b) {
+//             return b.likes - a.likes;
+//         })
+//         console.log(likes);
+//     } else if (filterValue === 'date') {
+//         sortedMedia = sortByDate(photographerMedia);
+//     } else if (filterValue === 'titre') {
+//         sortedMedia = sortByTitle(photographerMedia);
+//     }
 
-    // Réafficher les médias triés
-    displayMedia(sortedMedia);
-}
+//     // Réafficher les médias triés
+//     displayMedia(sortedMedia);
+// }
 
-function sortByPopularity(mediaArray) {
-    return mediaArray.sort((a, b) => b.likes - a.likes);
-}
-function sortByDate(mediaArray) {
-    return mediaArray.sort((a, b) => new Date(b.date) - new Date(a.date));
-}
-function sortByTitle(mediaArray) {
-    return mediaArray.sort((a, b) => a.title.localeCompare(b.title));
-}
-function displayMediaFilter(sortedMedia) {
+// function sortByPopularity(mediaArray) {
+//     return mediaArray.sort((a, b) => b.likes - a.likes);
+// }
+// function sortByDate(mediaArray) {
+//     return mediaArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+// }
+// function sortByTitle(mediaArray) {
+//     return mediaArray.sort((a, b) => a.title.localeCompare(b.title));
+// }
+// function displayMediaFilter(sortedMedia) {
    
-    const mediaSection = document.querySelector('.photograph-media');
-    mediaSection.innerHTML = '';  
+//     const mediaSection = document.querySelector('.photograph-media');
+//     mediaSection.innerHTML = '';  
 
    
-    sortedMedia.forEach(mediaItem => {
-        mediaTemplate(mediaItem, photographerName);
-    });
-}
+//     sortedMedia.forEach(mediaItem => {
+//         mediaTemplate(mediaItem, photographerName);
+//     });
+// }
 
 
 
