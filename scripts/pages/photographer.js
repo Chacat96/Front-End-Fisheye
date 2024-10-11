@@ -26,29 +26,33 @@ async function init() {
             // Extraire le nom du photographe
             const photographerName = profil.name;
             const photographerPrice = profil.price;
-            // console.log('Nom du photographe:', photographerName);
             
             // Afficher les informations du photographe
             const photographerSection = document.querySelector('.photograph-header');
             const photographerTemplateInstance = photographerTemplate(profil);
             photographerTemplateInstance.PhotographerProfile(profil);
         
-
             // Obtenir les médias pour ce photographe
-            const photographerMedia = getMediaByPhotographerId(data, photographerId);
-            // console.table(photographerMedia);
+            currentPhotographerMedia = getMediaByPhotographerId(data, photographerId);
+            currentPhotographerName = profil.name; // Stocker le nom du photographe
+            console.log('Médias du photographe:', currentPhotographerMedia);
+
+            // Initialiser le filtre
+            initializeFilter();
+
+            // Tri initial par popularité
+            const initialSortedMedia = sortByPopularity([...currentPhotographerMedia]);
+            displaySortedMedia(initialSortedMedia);
             
             // Passer les médias et le nom du photographe à la fonction mediaTemplate
             const photographerData = {
                 ...profil,
-                media: photographerMedia
+                media: currentPhotographerMedia
             };
             console.log('Calling initializeGallery with:', photographerData);
             initializeGallery(photographerData);
 
-            encartMedia(photographerMedia, photographerPrice);
-
-      
+            encartMedia(currentPhotographerMedia, photographerPrice);
         } else {
             console.error("Aucun profil trouvé avec cet ID.");
         }
@@ -142,6 +146,12 @@ form.addEventListener("submit", (event) => {
   console.log("Votre message :",message);
 })
 
+
+document.addEventListener("DOMContentLoaded", function() {
+    const selectElement = document.getElementById("filtre-select");
+    selectElement.addEventListener("change", handleFilterChange);
+    console.log("Écouteur d'événement ajouté au select");
+});
 function handleFilterChange(event) {
     console.log('Changement de filtre détecté:', event.target.value);
     const filterValue = event.target.value;
@@ -183,11 +193,7 @@ function displayMediaFilter(sortedMedia) {
     });
 }
 
-// document.addEventListener("DOMContentLoaded", function() {
-//     const selectElement = document.getElementById("filtre-select");
-//     selectElement.addEventListener("change", handleFilterChange);
-//     console.log("Écouteur d'événement ajouté au select");
-// });
+
 
 
 

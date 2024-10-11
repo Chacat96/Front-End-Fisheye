@@ -295,38 +295,56 @@ function contactForm(data) {
 }
 
 //Filtre de trie
+let currentPhotographerMedia = [];
+let currentPhotographerName = "";
 
-function filterMedia(data) {
-    document.addEventListener("DOMContentLoaded", function() {
-        const selectElement = document.getElementById("filtre-select");
-        selectElement.addEventListener("change", handleFilterChange);
-        console.log("Écouteur d'événement ajouté au select");
-    });
-    return data;
+function initializeFilter() {
+    const selectElement = document.getElementById("filtre-select");
+    selectElement.addEventListener("change", handleFilterChange);
+    console.log("Écouteur d'événement ajouté au select");
 }
 
-// function handleFilterChange(event) {
-//     console.log('Changement de filtre détecté:', event.target.value);
-//     const filterValue = event.target.value;
+function handleFilterChange(event) {
+    const filterValue = event.target.value;
+    console.log('Changement de filtre détecté:', filterValue);
     
-//     // Récupérer les médias actuels
-//     let sortedMedia;
-//     if (filterValue === 'popularite') {
-//         likes.sort(function(a, b) {
-//             return b.likes - a.likes;
-//         })
-//         console.log(likes);
-//     } else if (filterValue === 'date') {
-//         sortedMedia = sortByDate(photographerMedia);
-//     } else if (filterValue === 'titre') {
-//         sortedMedia = sortByTitle(photographerMedia);
-//     }
+    if (!currentPhotographerMedia || currentPhotographerMedia.length === 0) {
+        console.error("Aucune donnée média disponible pour le tri");
+        return;
+    }
 
-//     // Réafficher les médias triés
-//     displayMedia(sortedMedia);
-// }
-// document.addEventListener("DOMContentLoaded", function() {
-//     const selectElement = document.getElementById("filtre-select");
-//     selectElement.addEventListener("change", handleFilterChange);
-//     console.log("Écouteur d'événement ajouté au select");
-// });
+    let sortedMedia;
+    if (filterValue === 'popularite') {
+        sortedMedia = sortByPopularity([...currentPhotographerMedia]);
+    } else if (filterValue === 'date') {
+        sortedMedia = sortByDate([...currentPhotographerMedia]);
+    } else if (filterValue === 'titre') {
+        sortedMedia = sortByTitle([...currentPhotographerMedia]);
+    }
+
+    if (sortedMedia) {
+        displaySortedMedia(sortedMedia);
+    }
+}
+
+function sortByPopularity(mediaArray) {
+    return mediaArray.sort((a, b) => b.likes - a.likes);
+}
+
+function sortByDate(mediaArray) {
+    return mediaArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+}
+
+function sortByTitle(mediaArray) {
+    return mediaArray.sort((a, b) => a.title.localeCompare(b.title));
+}
+
+function displaySortedMedia(sortedMedia) {
+    const mediaSection = document.querySelector('.photograph-media');
+    mediaSection.innerHTML = '';  
+
+    sortedMedia.forEach((mediaItem, index) => {
+        const mediaElement = mediaTemplate(mediaItem, currentPhotographerName, index);
+        mediaSection.appendChild(mediaElement);
+    });
+}
