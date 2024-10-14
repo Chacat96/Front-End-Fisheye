@@ -1,16 +1,13 @@
 let totalLikesSum = 0;
 
-
-//Fonction principal qui appel les data des photographes
+//! Fonction principal qui appel les data des photographes
 function photographerTemplate(data) {
     const { name, portrait, tagline, price, city, country, id } = data;
 
-    // console.log(data)
-
-    //Créé le chemin pour récupérer le portrait et le stock dans picture
+    //* Créé le chemin pour récupérer le portrait et le stock dans picture
     const picture = `assets/photographers/${portrait}`;
 
-    //Fonction qui ajoute tous les éléments d'un photographe dans la page index
+    //* Fonction qui ajoute tous les éléments d'un photographe dans la page index
     function getUserCardDOM() {
 
         const article = document.createElement( 'article' );
@@ -47,7 +44,7 @@ function photographerTemplate(data) {
         return (article);
     }
 
-// Fonction pour créer le template profil d'un photographe
+//! Fonction pour créer le template profil d'un photographe
 function PhotographerProfile(data) {
 
     const photographHeader = document.querySelector( '.photograph-header' );
@@ -58,7 +55,6 @@ function PhotographerProfile(data) {
 
     const h1Name = document.createElement( 'h1' );
     h1Name.textContent = data.name;
-    // console.log(data)
 
     const pVille = document.createElement( 'p' );
     pVille.classList.add("fromProfil");
@@ -79,20 +75,20 @@ function PhotographerProfile(data) {
     return photographHeader;
 }
 
-// Exporter la fonction pour pouvoir l'utiliser dans d'autres fichiers
+//! Exporter la fonction pour pouvoir l'utiliser dans d'autres fichiers
     return { name, picture, getUserCardDOM, PhotographerProfile };
 }
 
 let mediaArray = []; 
 let currentIndex = 0; 
 
+//! Fonction pour ouvrir la lightbox
 function openLightbox(mediaPath, mediaType, title, index) {
-    console.log('Opening lightbox:', { mediaPath, mediaType, title, index });
+    
     currentIndex = index;
-    console.log("currentIndex", currentIndex);
+
     updateLightbox(mediaPath, mediaType, title, currentIndex);
     document.getElementById('lightbox').style.display = 'flex';
-    console.log("currentindex", currentIndex);
 
     const lightboxPrev = document.querySelector('.lightbox-prev');
     const lightboxNext = document.querySelector('.lightbox-next');
@@ -103,18 +99,20 @@ function openLightbox(mediaPath, mediaType, title, index) {
     document.addEventListener('keydown', handleKeydownInLightbox);
 }
 
+//! Fonction pour fermer la lightbox
 function closeLightbox() {
     document.getElementById('lightbox').style.display = 'none';
     document.removeEventListener('keydown', handleKeydownInLightbox);
 }
 
+//! Fonction pour naviguer dans la lightbox
 function navigateLightbox(direction) {
-    // -1 pour précédent, 1 pour suivant
     currentIndex = (currentIndex + direction + mediaArray.length) % mediaArray.length;
     const { mediaPath, mediaType, title } = mediaArray[currentIndex];
     updateLightbox(mediaPath, mediaType, title, currentIndex);
 }
 
+//! Fonction pour naviguer dans la lightbox avec le clavier
 function handleKeydownInLightbox(event) {
     if (event.key === 'ArrowLeft') {
         navigateLightbox(-1);
@@ -125,6 +123,7 @@ function handleKeydownInLightbox(event) {
     }
 }
 
+//! Fonction pour mettre a jour la lightbox
 function updateLightbox(mediaPath, mediaType, title, currentIndex) {
     const lightboxImage = document.getElementById('lightboxImage');
     const lightboxVideo = document.getElementById('lightboxVideo');
@@ -146,28 +145,7 @@ function updateLightbox(mediaPath, mediaType, title, currentIndex) {
     lightboxTitle.textContent = title;
 }
 
-function initializeLightboxNavigation() {
-    // const prevBtn = document.querySelector(".lightbox-prev");
-    // const nextBtn = document.querySelector(".lightbox-next");
-    // const closeBtn = document.querySelector(".close");
-
-    // prevBtn.addEventListener('click', () => {
-    //     currentIndex = (currentIndex - 1 + mediaArray.length) % mediaArray.length;
-    //     const { mediaPath, mediaType, title } = mediaArray[currentIndex];
-    //     updateLightbox(mediaPath, mediaType, title);
-    //     console.log("currentindexprev", currentIndex);
-    // });
-    
-    // nextBtn.addEventListener('click', () => {
-    //     currentIndex = (currentIndex + 1) % mediaArray.length;
-    //     const { mediaPath, mediaType, title } = mediaArray[currentIndex];
-    //     updateLightbox(mediaPath, mediaType, title);
-    //     console.log("currentindexnext", currentIndex);
-    // });
-
-    // closeBtn.addEventListener('click', closeLightbox);
-}
-
+//! Fonction pour initialiser la galerie
 function initializeGallery(photographerData) {
     const { name, media } = photographerData;
     const divMedia = document.querySelector('.photograph-media');
@@ -175,11 +153,10 @@ function initializeGallery(photographerData) {
     mediaArray = new Array(media.length); // Initialiser mediaArray avec la bonne longueur
     
     media.forEach((mediaItem, index) => {
-        console.log(`Creating media element for index ${index}:`, mediaItem);
-        const mediaElement = mediaTemplate(mediaItem, name, index);
-        divMedia.appendChild(mediaElement);
-        console.log('Media element added to DOM:', mediaElement);
-    });
+
+    const mediaElement = mediaTemplate(mediaItem, name, index);
+    divMedia.appendChild(mediaElement);
+});
     
     const prevBtn = document.querySelector(".lightbox-prev");
     const nextBtn = document.querySelector(".lightbox-next");
@@ -189,18 +166,18 @@ function initializeGallery(photographerData) {
         currentIndex = (currentIndex - 1 + mediaArray.length) % mediaArray.length;
         const { mediaPath, mediaType, title } = mediaArray[currentIndex];
         updateLightbox(mediaPath, mediaType, title);
-        console.log("currentindexprev", currentIndex);
     });
     
     nextBtn.addEventListener('click', () => {
         currentIndex = (currentIndex + 1) % mediaArray.length;
         const { mediaPath, mediaType, title } = mediaArray[currentIndex];
         updateLightbox(mediaPath, mediaType, title);
-        console.log("currentindexnext", currentIndex);
     });
 
     closeBtn.addEventListener('click', closeLightbox);
 }
+
+//! Fonction pour ajouter un media
 function mediaTemplate(dataMedia, photographerName, index) {
     const { image, video, title, likes, date, price } = dataMedia;
 
@@ -223,7 +200,7 @@ function mediaTemplate(dataMedia, photographerName, index) {
         media = document.createElement("img");
         media.setAttribute("src", mediaPath);
         media.setAttribute("alt", title);
-        media.setAttribute("aria-label", "Photo prise par le photographe " + title);
+        media.setAttribute("aria-label", "Photo " + title);
     } else if (video) {
         media = document.createElement("video");
         media.removeAttribute("controls");
@@ -240,14 +217,12 @@ function mediaTemplate(dataMedia, photographerName, index) {
     media.dataset.index = index;
     
     media.addEventListener('click', (event) => {
-        console.log(`Clicked on media at index ${index}`);
-        console.log('Calling openLightbox:', { mediaPath, mediaType, title, index });
         openLightbox(mediaPath, mediaType, title, index);
     });
 
     media.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault(); // Empêche le défilement si c'est la touche espace
+            event.preventDefault();
             openLightbox(mediaPath, mediaType, title, index);
         }
     });
@@ -288,10 +263,10 @@ function mediaTemplate(dataMedia, photographerName, index) {
     articleMedia.appendChild(titreMedia);
     articleMedia.appendChild(divLikes);
 
-    return articleMedia;  // Retourne l'élément créé au lieu de l'ajouter au DOM
+    return articleMedia;
 }
 
-//Fonction pour creer le template de l'encart des medias
+//! Fonction pour creer le template de l'encart des medias
 function encartMedia(data, photographerPrice) {
     
     if (totalLikesSum === 0) { 
@@ -324,26 +299,25 @@ function encartMedia(data, photographerPrice) {
     return encartMedia;
 }
 
-
-//Formulaire de contact 
+//! Formulaire de contact 
 function contactForm(data) {
     const nameContact = document.querySelector('.name-contact');
     nameContact.textContent = data.name;
 }
 
-//Filtre de trie
+//! Filtre de trie
 let currentPhotographerMedia = [];
 let currentPhotographerName = "";
 
+//* Ecouteur d'événement
 function initializeFilter() {
     const selectElement = document.getElementById("filtre-select");
     selectElement.addEventListener("change", handleFilterChange);
-    console.log("Écouteur d'événement ajouté au select");
 }
 
+//* Fonctions pour détécter le changement de filtre
 function handleFilterChange(event) {
     const filterValue = event.target.value;
-    console.log('Changement de filtre détecté:', filterValue);
     
     if (!currentPhotographerMedia || currentPhotographerMedia.length === 0) {
         console.error("Aucune donnée média disponible pour le tri");
@@ -351,6 +325,7 @@ function handleFilterChange(event) {
     }
 
     let sortedMedia;
+
     if (filterValue === 'popularite') {
         sortedMedia = sortByPopularity([...currentPhotographerMedia]);
     } else if (filterValue === 'date') {
